@@ -1,8 +1,21 @@
+from queryarticles import QueryDateRange
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
+def main():
+    #article_hrefs = QueryDateRange("1999-04-01", "1999-04-30")
+
+    article_hrefs = {
+        "",
+        "",
+        "",
+        "",
+        ""
+    }
+
+    for href in article_hrefs:
+        ParseArticleContents(href)
+    pass
+
 
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
+    main()
