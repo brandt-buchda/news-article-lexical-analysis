@@ -1,8 +1,7 @@
 from pywebcopy import save_webpage
-from directoryconstants import *
 
 
-def CopyWebArticle(url):
+def copy_web_article(url, directory, project):
 
-    kwargs = {'bypass_robots': True, "project_name": "NYT"}
-    save_webpage(url, ARTICLE_DIRECTORY, **kwargs)
+    kwargs = {'bypass_robots': True, "project_name": project}
+    save_webpage(url, directory, **kwargs, open_in_browser=False)

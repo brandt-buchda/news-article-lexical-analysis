@@ -1,4 +1,4 @@
-from copywebarticle import  CopyWebArticle
+from copywebarticle import  copy_web_article
 
 queryTerms = {
     'types': 'article',
@@ -37,7 +37,7 @@ def QueryDateRange(start_date, end_date, n=10):
     query_url += "&startDate" + start_date
     query_url += "&endDate" + end_date
 
-    CopyWebArticle(query_url)
+    #copy_web_article(query_url, "", "")
 
     for i in range(0, n):
         pass
