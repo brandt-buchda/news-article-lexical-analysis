@@ -1,9 +1,13 @@
-from parsearticlecontents import parse_article_contents
-from queryarticles import QueryDateRange
-
+import constants
+import serialize
+from parsehtlm import ParseHtml
+from serialize import CsvSerialize
 
 def main():
     #article_hrefs = QueryDateRange("1999-04-01", "1999-04-30")
+
+    parse_html = ParseHtml(constants.Newspapers.NEW_YORK_TIMES, constants.Paths.ARTICLE_DIRECTORY)
+    csv_serialize = CsvSerialize(constants.Newspapers.NEW_YORK_TIMES, constants.Paths.CSV_DIRECTORY)
 
     article_hrefs = {
         "https://www.nytimes.com/1999/04/29/opinion/IHT-the-colorado-shooting-letters-to-the-editor.html",
@@ -18,9 +22,14 @@ def main():
         "https://www.nytimes.com/2023/10/20/opinion/harvard-penn-donors.html"
     }
 
+    articles = []
+
     for href in article_hrefs:
-        parse_article_contents(href)
+        articles.append(parse_html.parse_article_contents(href))
     pass
+
+    for article in articles:
+        csv_serialize.serialize(article)
 
 
 if __name__ == '__main__':

@@ -1,4 +1,3 @@
-from copywebarticle import  copy_web_article
 
 queryTerms = {
     'types': 'article',
