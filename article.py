@@ -1,9 +1,11 @@
+
 class Article:
     def __init__(self, href, title, author, data):
         self.href = href
         self.title = title
         self.author = author
-        self.data: list[str] = data
+        self.data = data
+        self.metrics = None
 
     def get_href(self):
         return self.href
@@ -17,3 +19,8 @@ class Article:
     def get_data(self):
         return self.data
 
+    def get_metrics(self):
+        return self.metrics
+
+    def set_metrics(self, metrics):
+        self.metrics = metrics
