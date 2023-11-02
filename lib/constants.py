@@ -11,7 +11,8 @@ class Newspapers:
         'query-terms': {
             'types': 'article',
             'sort': 'oldest',
-            'sections': 'Opinion%7Cnyt%3A%2F%2Fsection%2Fd7a71185-aa60-5635-bce0-5fab76c7c297'},
+            'sections': 'Opinion%7Cnyt%3A%2F%2Fsection%2Fd7a71185-aa60-5635-bce0-5fab76c7c297',
+            'dropmab': 'false'},
         'query-results': 'query_results.csv'}
 
 

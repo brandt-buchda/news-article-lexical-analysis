@@ -1,21 +1,18 @@
-import readability.scorers
 from nltk.tokenize import wordpunct_tokenize
-from article import Article
+from lib.article import Article
 from readability import Readability
 
-def clean_data(article: Article):
-    # Prune cell data
-    metrics = [{'raw_data': ""}]
 
-    for cell in article.get_data():
-        metrics[0]['raw_data'] += cell
+def clean_data(article: Article):
+    data = article.get_data()
+    cleaned_data = []
+    for cell in data:
         tokens = wordpunct_tokenize(cell)
 
         if len(tokens) > 5:
-            metrics.append({'word_count': len(tokens), 'tokens': tokens})
+            cleaned_data.append(cell)
 
-    article.set_metrics(metrics)
-
+    article.set_data(cleaned_data)
 
 def analyze_data(article):
     readability = Readability(article.get_metrics()[0]['raw_data'])

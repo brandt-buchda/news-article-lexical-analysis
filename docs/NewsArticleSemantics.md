@@ -1,6 +1,17 @@
 # News Article Lexical Analysis
 This repository contains code 
 
+## Data flow
+```plantuml
+@startuml
+: python scrapewebdata.py <start-year> <end-year> <n>;
+note right: Query up to **n** articles each month from the **start-year** \nto **end-year** from the New York Times article database
+:This is defined on
+several **lines**;
+@enduml
+
+```
+
 ```python 
 class CsvSerialize:
     def get_article_path(self, title):
