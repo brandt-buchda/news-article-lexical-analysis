@@ -7,25 +7,6 @@ from bs4 import BeautifulSoup
 from lib.article import Article
 
 
-def query_date_range(start_date, end_date, n=10):
-    search_params = {
-        'api-key': "FILL WITH API KEY",
-        'begin_date': start_date,
-        'end_date': end_date,
-        'sort': 'oldest',
-        'fl': 'web_url',
-        'fq': 'section_name:("Opinion")',
-        'page': 0
-    }
-
-    response = requests.get("https://api.nytimes.com/svc/search/v2/articlesearch.json", params=search_params)
-
-    data = response.json()
-    hrefs = [doc['web_url'] for doc in data['response']['docs']]
-
-    return hrefs
-
-
 def parse_article_contents(href):
 
     request = requests.get(href)
@@ -38,16 +19,36 @@ def parse_article_contents(href):
     for paragraph in text:
         paragraphs.append(paragraph.get_text())
 
-    return Article(href, split_title(href), "Unknown", paragraphs)
+    return Article(href, split_title(href), "", paragraphs)
 
 
 class ParseHtml:
-    def __init__(self, newspaper, directory):
+    def __init__(self, newspaper, directory, key):
         self.newspaper = newspaper
         self.directory = directory
+        self.params = {
+            'api-key': key,
+            'begin_date': "",
+            'end_date': "",
+            'sort': 'oldest',
+            'fl': 'web_url',
+            'fq': 'section_name:("Opinion")',
+            'page': 0
+        }
+
+    def query_date_range(self, start_date, end_date, n=10):
+        self.params['begin_date'] = start_date
+        self.params['end_date'] = end_date
+
+        response = requests.get(self.newspaper['api'], params=self.params)
+
+        data = response.json()
+        hrefs = [doc['web_url'] for doc in data['response']['docs']]
+
+        return hrefs
 
     def copy_web_article(self, href):
-        kwargs = {'bypass_robots': True, "project_name": self.newspaper["project"]}
+        kwargs = {'bypass_robots': False, "project_name": self.newspaper["project"]}
         save_webpage(href, self.directory, **kwargs, open_in_browser=False)
 
     def parse_all_article_contents(self):
