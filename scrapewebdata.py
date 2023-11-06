@@ -4,7 +4,7 @@ from lib import constants
 from lib.constants import *
 from lib.parsehtlm import ParseHtml, parse_article_contents, query_date_range
 from lib.serialize import CsvSerialize
-from analyzedata import clean_data
+from analyzedata import clean_article_data
 
 parse_html = ParseHtml(Newspapers.NEW_YORK_TIMES, constants.Paths.ARTICLE_DIRECTORY)
 csv_serialize = CsvSerialize(Newspapers.NEW_YORK_TIMES, constants.Paths.CSV_DIRECTORY)
@@ -29,7 +29,7 @@ def scrape_article_data():
 
     for result in query_results:
         article = parse_article_contents(result['href'])
-        clean_data(article)
+        clean_article_data(article)
         csv_serialize.serialize_article_data(article)
         time.sleep(2)
 
@@ -38,7 +38,7 @@ def process_articles():
     articles = parse_html.parse_all_article_contents()
 
     for article in articles:
-        clean_data(article)
+        clean_article_data(article)
         csv_serialize.serialize_article_data(article)
 
 
@@ -46,7 +46,6 @@ def main():
     query_nyt_article_database(int(sys.argv[1]), int(sys.argv[2]))
 
     scrape_article_data()
-
 
 if __name__ == "__main__":
     main()

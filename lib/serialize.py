@@ -1,4 +1,5 @@
 import csv
+import os
 from lib.constants import get_query_results_path
 from lib.article import Article
 from lib.utility import *
@@ -26,18 +27,31 @@ class CsvSerialize:
                     writer.writerow(row.values())
 
     def deserialize_article_data(self, title: str) -> Article:
-        with open(self.get_article_path(title), "r", newline='') as file:
-            reader = csv.reader(file)
+        with open(self.get_article_path(title), "r", newline='', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
 
-            for row in reader[1:]:
-                href = row[0]
-                title = row[1]
-                author = row[2]
-                paragraphs = []
-                for paragraph in row[3:]:
-                    paragraphs.append(paragraph)
+            for row in reader:
+                href = row['href']
+                title = row['title']
+                author = row['author']
+                paragraphs = [row['paragraphs']]
+                if None in row:
+                    for paragraph in row[None]:
+                        paragraphs.append(paragraph)
 
                 return Article(href, title, author, paragraphs)
+
+    def load_all_article_data(self):
+        csv_path = f'{self.directory}{self.newspaper["project"]}/'
+
+        articles = []
+
+        for file in os.listdir(csv_path):
+            articles.append(self.deserialize_article_data(file.split('.')[0]))
+
+        return articles
+
+
 
     def serialize_query_results(self, hrefs):
         with open(get_query_results_path(self.newspaper), "w", newline='') as file:
